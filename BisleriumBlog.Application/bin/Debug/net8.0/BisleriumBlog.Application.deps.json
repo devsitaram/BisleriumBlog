@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "BisleriumBlog.Application/1.0.0": {
+        "dependencies": {
+          "BisleriumBlog.Domain": "1.0.0"
+        },
+        "runtime": {
+          "BisleriumBlog.Application.dll": {}
+        }
+      },
+      "BisleriumBlog.Domain/1.0.0": {
+        "runtime": {
+          "BisleriumBlog.Domain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "BisleriumBlog.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BisleriumBlog.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

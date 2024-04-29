@@ -1,0 +1,12 @@
+C:\Documents\FinalYears\DotNet_Application_Development\BisleriumBlog\BisleriumBlog.Domain\bin\Debug\net8.0\BisleriumBlog.Domain.deps.json
+C:\Documents\FinalYears\DotNet_Application_Development\BisleriumBlog\BisleriumBlog.Domain\bin\Debug\net8.0\BisleriumBlog.Domain.dll
+C:\Documents\FinalYears\DotNet_Application_Development\BisleriumBlog\BisleriumBlog.Domain\bin\Debug\net8.0\BisleriumBlog.Domain.pdb
+C:\Documents\FinalYears\DotNet_Application_Development\BisleriumBlog\BisleriumBlog.Domain\obj\Debug\net8.0\BisleriumBlog.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Documents\FinalYears\DotNet_Application_Development\BisleriumBlog\BisleriumBlog.Domain\obj\Debug\net8.0\BisleriumBlog.Domain.AssemblyInfoInputs.cache
+C:\Documents\FinalYears\DotNet_Application_Development\BisleriumBlog\BisleriumBlog.Domain\obj\Debug\net8.0\BisleriumBlog.Domain.AssemblyInfo.cs
+C:\Documents\FinalYears\DotNet_Application_Development\BisleriumBlog\BisleriumBlog.Domain\obj\Debug\net8.0\BisleriumBlog.Domain.csproj.CoreCompileInputs.cache
+C:\Documents\FinalYears\DotNet_Application_Development\BisleriumBlog\BisleriumBlog.Domain\obj\Debug\net8.0\BisleriumBlog.Domain.sourcelink.json
+C:\Documents\FinalYears\DotNet_Application_Development\BisleriumBlog\BisleriumBlog.Domain\obj\Debug\net8.0\BisleriumBlog.Domain.dll
+C:\Documents\FinalYears\DotNet_Application_Development\BisleriumBlog\BisleriumBlog.Domain\obj\Debug\net8.0\refint\BisleriumBlog.Domain.dll
+C:\Documents\FinalYears\DotNet_Application_Development\BisleriumBlog\BisleriumBlog.Domain\obj\Debug\net8.0\BisleriumBlog.Domain.pdb
+C:\Documents\FinalYears\DotNet_Application_Development\BisleriumBlog\BisleriumBlog.Domain\obj\Debug\net8.0\ref\BisleriumBlog.Domain.dll

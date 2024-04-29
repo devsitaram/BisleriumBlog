@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "BKCK306sIE67NqkNYHv/4K33pDD5iFD7JDTrcnHNL0c=",
+  "Source": "BisleriumBlog.WebAPI",
+  "BasePath": "_content/BisleriumBlog.WebAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
