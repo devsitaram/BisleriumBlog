@@ -1,9 +1,6 @@
-﻿using System.Security.Claims;
-using BisleriumBlog.Application.Common.Interface;
+﻿using BisleriumBlog.Application.Common.Interface;
 using BisleriumBlog.Application.DTOs;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BisleriumBlog.WebAPI.Controllers
@@ -30,7 +27,7 @@ namespace BisleriumBlog.WebAPI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("/api/authenticate/login")]
-        public async Task<ResponseDTO> Login([FromBody] UserLoginRequestDTO user)
+        public async Task<LoginResponseDTO> Login([FromBody] UserLoginRequestDTO user)
         {
             var result = await _authenticationManager.Login(user);
             return result;

@@ -27,7 +27,7 @@ namespace BisleriumBlog.Infrastructure.DI
                 b => b.MigrationsAssembly("BisleriumBlog.Infrastructure")),
                 ServiceLifetime.Transient);
 
-            services.AddIdentity<IdentityUser, IdentityRole>(options => {
+            services.AddIdentity<Domain.Entities.User, IdentityRole>(options => {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequireDigit = false;
                 options.Password.RequiredLength = 6;
@@ -40,8 +40,6 @@ namespace BisleriumBlog.Infrastructure.DI
 
             services.AddTransient<IDateTime, DateTimeService>();
             services.AddTransient<IAuthentication, AuthenticationService>();
-            // services.AddTransient<IServiceCollection, sigba>
-            // services.AddTransient<IEmployeeDetails, EmployeeDetails>();
 
             return services;
         }

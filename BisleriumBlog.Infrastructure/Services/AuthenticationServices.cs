@@ -5,53 +5,59 @@ using BisleriumBlog.Application.Common.Interface;
 using BisleriumBlog.Application.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System.Data;
+using BisleriumBlog.Domain.Entities;
 
 namespace BisleriumBlog.Infrastructure.Services
 {
     public class AuthenticationService : IAuthentication
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly IConfiguration _configuration;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AuthenticationService(UserManager<IdentityUser> userManager, IConfiguration configration, SignInManager<IdentityUser> signInManager)
+        public AuthenticationService(UserManager<User> userManager, IConfiguration configration, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configration;
+            _roleManager = roleManager;
         }
 
-        // Regisster
+        // Register
         public async Task<ResponseDTO> Register(UserRegisterRequestDto model)
         {
             var userExists = await _userManager.FindByNameAsync(model.Username);
             if (userExists != null)
-                return new ResponseDTO { Status = "Error", Message = "User already exists!" };
+                return new ResponseDTO { Status = false, Message = "User already exists!" };
 
-
-            IdentityUser user = new()
+            User user = new()
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.Username,
-                
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                await _signInManager.Role ????
                 return new ResponseDTO
-                    { Status = "Error", Message = "User creation failed! Please check user details and try again." };
+                    { Status = false, Message = "Enter the valid password. Please check user details and try again." };
 
-            return new ResponseDTO { Status = "Success", Message = "User created successfully!" };
+            // Assigning a role to the user
+            if (!await _roleManager.RoleExistsAsync("Blogger"))
+                await _roleManager.CreateAsync(new IdentityRole("Blogger"));
+
+            await _userManager.AddToRoleAsync(user, "Blogger");
+
+            return new ResponseDTO { Status = true, Message = "User created successfully!" };
         }
 
         // Login User
-        public async Task<ResponseDTO> Login(UserLoginRequestDTO model)
+        public async Task<LoginResponseDTO> Login(UserLoginRequestDTO model)
         {
 
             var user = await _userManager.FindByNameAsync(model.Username);
@@ -59,33 +65,24 @@ namespace BisleriumBlog.Infrastructure.Services
 
             if (result.Succeeded)
             {
-                var token = await CreateJwtAccessToken(user); // Method to generate the token
+                var token = await CreateJwtAccessToken(user);
 
-                return new ResponseDTO()
+                return new LoginResponseDTO()
                 {
                     Message = "Login successful",
-                    Status = "Success",
-                    Data = token
+                    Status = true,
+                    AccessToken = token
                 };
-
             }
 
-            return new ResponseDTO()
+            return new LoginResponseDTO()
             {
                 Message = "User login failed! Please check user details and try again.!",
-                Status = "Error"
+                Status = false
             };
-
         }
 
-        // to provide token or POST request
-        /*[AllowAnonymous]
-        public string Get(string username, string password)
-        {
-            return JwtManager.GenerateToken(username);
-        }*/
-
-        public async Task<string> CreateJwtAccessToken(IdentityUser user)
+        public async Task<string> CreateJwtAccessToken(User user)
         {
             var signingCredentials = GetSigningCredentials();
             var claims = await GetClaims(user);
@@ -101,20 +98,19 @@ namespace BisleriumBlog.Infrastructure.Services
             return new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
         }
 
-        private async Task<List<Claim>> GetClaims(IdentityUser user)
+        private async Task<List<Claim>> GetClaims(User user)
         {
             var claims = new List<Claim>
             {
                 new Claim("id", user.Id),
                 new Claim("username", user.UserName),
                 new Claim("email", user.Email),
-                // new Claim("role", user.Email)
             };
             var roles = await _userManager.GetRolesAsync(user);
 
             foreach (var role in roles)
             {
-                claims.Add(new Claim(ClaimTypes.Role, role));
+                claims.Add(new Claim("role", role));
             }
 
             return claims;
@@ -177,20 +173,21 @@ namespace BisleriumBlog.Infrastructure.Services
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
-                return new ResponseDTO { Status = "Error", Message = "User not found!" };
+                return new ResponseDTO { Status = false, Message = "User not found!" };
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
             if (!result.Succeeded)
-                return new ResponseDTO { Status = "Error", Message = "Failed to reset password!" };
+                return new ResponseDTO { Status = false, Message = "Failed to reset password!" };
 
-            return new ResponseDTO { Status = "Success", Message = "Password reset successfully!" };
+            return new ResponseDTO { Status = true, Message = "Password reset successfully!" };
         }
 
         // Get Profile details
         public async Task<UserDetailsDTO> GetUserProfile()
         {
             var userId = Guid.NewGuid().ToString();
+
             var user = await _userManager.FindByIdAsync(userId);
 
             if (user == null)
